@@ -3,6 +3,10 @@ use cosmwasm_std::entry_point;
 use cosmwasm_std::{to_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult};
 use cw2::set_contract_version;
 
+use sei_cosmwasm::{
+  SudoMsg
+};
+
 use crate::error::ContractError;
 use crate::msg::{ExecuteMsg, GetCountResponse, InstantiateMsg, QueryMsg};
 use crate::state::{State, STATE};
@@ -39,7 +43,8 @@ pub fn execute(
     msg: ExecuteMsg,
 ) -> Result<Response, ContractError> {
     match msg {
-        ExecuteMsg::Increment {} => execute::increment(deps),
+        ExecuteMsg::Increment {} => execute::increment(deps, 1),
+        ExecuteMsg::IncrementOf { count } => execute::increment(deps, count),
         ExecuteMsg::Reset { count } => execute::reset(deps, info, count),
     }
 }
@@ -47,9 +52,9 @@ pub fn execute(
 pub mod execute {
     use super::*;
 
-    pub fn increment(deps: DepsMut) -> Result<Response, ContractError> {
+    pub fn increment(deps: DepsMut, count: i32) -> Result<Response, ContractError> {
         STATE.update(deps.storage, |mut state| -> Result<_, ContractError> {
-            state.count += 1;
+            state.count += count;
             Ok(state)
         })?;
 
