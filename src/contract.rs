@@ -3,7 +3,7 @@ use cosmwasm_std::{entry_point, to_binary, Binary, Deps, DepsMut, Env, MessageIn
 use cw2::set_contract_version;
 
 use sei_cosmwasm::{
-  SudoMsg, SeiQueryWrapper
+  SudoMsg, SeiQueryWrapper, ContractOrderResult
 };
 
 use crate::error::ContractError;
@@ -72,8 +72,8 @@ pub mod execute {
     }
 }
 
-#[entry_point]
-pub fn sudo_execute(_deps: DepsMut<SeiQueryWrapper>, _env: Env, msg: SudoMsg) -> Result<Response, StdError> {
+#[cfg_attr(not(feature = "library"), entry_point)]
+pub fn sudo_execute(deps: DepsMut<SeiQueryWrapper>, env: Env, msg: SudoMsg) -> Result<Response, StdError> {
     match msg {
         SudoMsg::Settlement { epoch: _, entries: _ } => Ok(Response::new()),
         SudoMsg::NewBlock { epoch: _ } => Ok(Response::new()),
@@ -82,8 +82,20 @@ pub fn sudo_execute(_deps: DepsMut<SeiQueryWrapper>, _env: Env, msg: SudoMsg) ->
         }
         SudoMsg::BulkOrderCancellations { ids: _ } => Ok(Response::new()),
         SudoMsg::Liquidation { requests: _ } => Ok(Response::new()),
-        SudoMsg::FinalizeBlock { contract_order_results: _ } => Ok(Response::new())
+        SudoMsg::FinalizeBlock { contract_order_results } => sudo_execute::finalize_block(deps, env, contract_order_results)
     }
+}
+
+pub mod sudo_execute {
+  use super::*;
+
+  pub fn finalize_block(
+    _deps: DepsMut<SeiQueryWrapper>,
+    _env: Env,
+    _contract_order_results: Vec<ContractOrderResult>
+  ) -> Result<Response, StdError> {
+    Ok(Response::new())
+  }
 }
 
 #[cfg_attr(not(feature = "library"), entry_point)]
