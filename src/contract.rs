@@ -1,10 +1,9 @@
 #[cfg(not(feature = "library"))]
-use cosmwasm_std::entry_point;
-use cosmwasm_std::{to_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult};
+use cosmwasm_std::{entry_point, to_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult, StdError};
 use cw2::set_contract_version;
 
 use sei_cosmwasm::{
-  SudoMsg
+  SudoMsg, SeiQueryWrapper
 };
 
 use crate::error::ContractError;
@@ -70,6 +69,20 @@ pub mod execute {
             Ok(state)
         })?;
         Ok(Response::new().add_attribute("action", "reset"))
+    }
+}
+
+#[entry_point]
+pub fn sudo_execute(_deps: DepsMut<SeiQueryWrapper>, _env: Env, msg: SudoMsg) -> Result<Response, StdError> {
+    match msg {
+        SudoMsg::Settlement { epoch: _, entries: _ } => Ok(Response::new()),
+        SudoMsg::NewBlock { epoch: _ } => Ok(Response::new()),
+        SudoMsg::BulkOrderPlacements { orders: _, deposits: _ } => {
+            Ok(Response::new())
+        }
+        SudoMsg::BulkOrderCancellations { ids: _ } => Ok(Response::new()),
+        SudoMsg::Liquidation { requests: _ } => Ok(Response::new()),
+        SudoMsg::FinalizeBlock { contract_order_results: _ } => Ok(Response::new())
     }
 }
 
