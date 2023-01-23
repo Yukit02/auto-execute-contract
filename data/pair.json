@@ -1,0 +1,17 @@
+{
+  "title":"Pair",
+  "description":"Pair description",
+  "batch_contract_pair":[
+    {
+      "contract_addr":"sei1nc5tatafv6eyq7llkr2gv50ff9e22mnf70qgjlv737ktmt4eswrqms7u8a",
+      "pairs":[
+        {
+          "price_denom":"SEI",
+          "asset_denom":"ATOM",
+          "tick_size":"0.0000001"
+        }
+      ]
+    }
+  ],
+  "deposit":"1000000usei"
+}
