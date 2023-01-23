@@ -1,1 +1,1 @@
-78baede60de1a830fc51f8730cf3d38a404fb7d89963884523ee063a49131fcf  ./target/wasm32-unknown-unknown/release/auto_execute_contract.wasm
+8b92df14d4c9aa9d478ecd2ccd6a95bbc5b70accfa444eef3df338e073225a14  ./target/wasm32-unknown-unknown/release/auto_execute_contract.wasm
