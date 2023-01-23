@@ -1,0 +1,1 @@
+78baede60de1a830fc51f8730cf3d38a404fb7d89963884523ee063a49131fcf  ./target/wasm32-unknown-unknown/release/auto_execute_contract.wasm

@@ -1,27 +1,32 @@
-use cosmwasm_schema::{cw_serde, QueryResponses};
+use serde::{Deserialize, Serialize};
+use schemars::JsonSchema;
 
-#[cw_serde]
+use crate::sei_type::*;
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct InstantiateMsg {
-    pub count: i32,
 }
 
-#[cw_serde]
-pub enum ExecuteMsg {
-    Increment {},
-    IncrementOf { count: i32 },
-    Reset { count: i32 },
-}
-
-#[cw_serde]
-#[derive(QueryResponses)]
-pub enum QueryMsg {
-    // GetCount returns the current count as a json-encoded number
-    #[returns(GetCountResponse)]
-    GetCount {},
-}
-
-// We define a custom struct for each query response
-#[cw_serde]
-pub struct GetCountResponse {
-    pub count: i32,
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum SudoMsg {
+    Settlement {
+        epoch: i64,
+        entries: Vec<SettlementEntry>,
+    },
+    NewBlock {
+        epoch: i64,
+    },
+    BulkOrderPlacements {
+        orders: Vec<Order>,
+        deposits: Vec<DepositInfo>,
+    },
+    BulkOrderCancellations {
+        ids: Vec<u64>,
+    },
+    Liquidation {
+        requests: Vec<LiquidationRequest>,
+    },
+    FinalizeBlock {
+        contract_order_results: Vec<ContractOrderResult>,
+    },
 }

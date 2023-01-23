@@ -1,0 +1,1 @@
+dd86af7e50d1e6044107a1a783582494953d657fa8ed69b7e39930203eb947e0  auto_execute_contract.wasm
